@@ -123,6 +123,6 @@ Copyright 2012, Roger Mayfield
 
 This library is released under the [GNU General Public License](http://opensource.org/licenses/gpl-3.0.html)
 
-### Disclaimer
+## Disclaimer
 
 Although using this class for data retrieval is not prohibited by the [Lord of Ultima Terms of Service](http://www.lordofultima.com/en/game/rules), it is against the rules to automate the game using the methods contained within it. You are liable for your own applications of this library. I am not responsible for any bans that may occur.
