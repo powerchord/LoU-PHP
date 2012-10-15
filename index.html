@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Lou-php by PastorBones</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Lou-php</h1>
+          <h2>A simple class for connecting and sending requests to Lord of Ultima.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/PastorBones/LoU-PHP/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/PastorBones/LoU-PHP/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/PastorBones/LoU-PHP" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>LoU-PHP</h1>
+
+<h4>Version 0.1.0</h4>
+
+<h2>Description</h2>
+
+<p>LoU-PHP is an opensourced class that provides basic methods for connecting, authenticating, and retrieving data from <a href="http://www.lordofultima.com">Lord of Ultima</a>.</p>
+
+<h2>Requirements</h2>
+
+<p>LoU-PHP requires the <a href="http://simplehtmldom.sourceforge.net/">Simple HTML DOM Parser</a> library which is included in this GitHub project directory for your convenience. The file must be located within the same directory as the classfile.</p>
+
+<h2>Usage</h2>
+
+<p>Before you start, you need to</p>
+
+<ul>
+<li>create a writable directory for storage of cookie files</li>
+<li>know the LoU account info (email, password, world id)</li>
+</ul><h3>Connecting to LoU</h3>
+
+<p>This class is extremely basic providing only the minimal methods needed for connecting to LoU and retrieving data from the LoU API. To login to a LoU server:</p>
+
+<div class="highlight"><pre>
+<span class="nv">$lou</span> <span class="o">=</span> <span class="nx">LoU</span><span class="o">::</span><span class="na">createClient</span><span class="p">(</span><span class="s1">'path/to/cookie/directory'</span><span class="p">);</span>
+<span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">login</span><span class="p">(</span><span class="s1">'myemail@domain.com'</span><span class="p">,</span> <span class="s1">'mypassword'</span><span class="p">);</span>
+</pre></div>
+
+<p>This will authenticate with LoU and populate a list of available servers. That server list can be shown like this:</p>
+
+<div class="highlight"><pre>
+<span class="k">foreach</span><span class="p">(</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">server_list</span> <span class="k">as</span> <span class="nv">$world</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'ID: '</span> <span class="o">.</span> <span class="nv">$world</span><span class="o">-&gt;</span><span class="na">id</span> <span class="o">.</span> <span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s1">'Name: '</span> <span class="o">.</span> <span class="nv">$world</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">.</span> <span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s1">'URL: '</span> <span class="o">.</span> <span class="nv">$world</span><span class="o">-&gt;</span><span class="na">server</span> <span class="o">.</span> <span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>There are several ways of selecting a LoU world and retrieving a valid session key. This allows you to connect to a world with one simple step:</p>
+
+<div class="highlight"><pre>
+<span class="c1">// Method 1</span>
+<span class="nv">$lou</span> <span class="o">=</span> <span class="nx">LoU</span><span class="o">::</span><span class="na">createClient</span><span class="p">(</span><span class="s1">'path/to/cookie/directory'</span><span class="p">);</span>
+<span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">setWord</span><span class="p">(</span><span class="mi">74</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">login</span><span class="p">(</span><span class="s1">'myemail@domain.com'</span><span class="p">,</span> <span class="s1">'mypassword'</span><span class="p">)</span>
+
+<span class="c1">// Method 2</span>
+<span class="nv">$lou</span> <span class="o">=</span> <span class="nx">LoU</span><span class="o">::</span><span class="na">createClient</span><span class="p">(</span><span class="s1">'path/to/cookie/directory'</span><span class="p">);</span>
+<span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">login</span><span class="p">(</span><span class="s1">'myemail@domain.com'</span><span class="p">,</span> <span class="s1">'mypassword'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">selectWorld</span><span class="p">(</span><span class="mi">74</span><span class="p">);</span>
+</pre></div>
+
+<p>Or you can first login and display a list of worlds for a user to choose from and then select the world:</p>
+
+<div class="highlight"><pre>
+<span class="nv">$lou</span> <span class="o">=</span> <span class="nx">LoU</span><span class="o">::</span><span class="na">createClient</span><span class="p">(</span><span class="s1">'path/to/cookie/directory'</span><span class="p">);</span>
+<span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">login</span><span class="p">(</span><span class="s1">'myemail@domain.com'</span><span class="p">,</span> <span class="s1">'mypassword'</span><span class="p">);</span>
+
+<span class="k">foreach</span><span class="p">(</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">server_list</span> <span class="k">as</span> <span class="nv">$world</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'ID: '</span> <span class="o">.</span> <span class="nv">$world</span><span class="o">-&gt;</span><span class="na">id</span> <span class="o">.</span> <span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s1">'Name: '</span> <span class="o">.</span> <span class="nv">$world</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">.</span> <span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s1">'URL: '</span> <span class="o">.</span> <span class="nv">$world</span><span class="o">-&gt;</span><span class="na">server</span> <span class="o">.</span> <span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Controls for user selection here</span>
+
+<span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">selectWorld</span><span class="p">(</span><span class="nv">$user_choice</span><span class="p">);</span>
+</pre></div>
+
+<h3>Retrieving Data</h3>
+
+<p>There are two methods for retrieving data from LoU. The first method involves providing an EndPoint and any necessary data:</p>
+
+<div class="highlight"><pre>
+<span class="c1">// Retrieve public information for the given player id</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span> <span class="s1">'GetPublicPlayerInfo'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span> <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="s1">'1234567'</span> <span class="p">)</span> <span class="p">);</span>
+
+<span class="c1">// Retrieve public information for the given city id</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span> <span class="s1">'GetPublicCityInfo'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span> <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="s1">'1234567'</span> <span class="p">)</span> <span class="p">);</span>
+</pre></div>
+
+<p>This method is for retrieving information via the Poll EndPoint:</p>
+
+<div class="highlight"><pre>
+<span class="c1">// Retrieve current list of incoming attacks</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">poll</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span> <span class="s1">'ALL_AT'</span> <span class="o">=&gt;</span> <span class="s1">''</span> <span class="p">)</span> <span class="p">);</span>
+
+<span class="c1">// Retrieve private information of the authenticated user's city</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">poll</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span> <span class="s1">'CITY'</span> <span class="o">=&gt;</span> <span class="s1">'1234567'</span> <span class="p">)</span> <span class="p">);</span>
+
+<span class="c1">// Retrieve time information from the server</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$lou</span><span class="o">-&gt;</span><span class="na">poll</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span> <span class="s1">'TIME'</span> <span class="o">=&gt;</span> <span class="nb">time</span><span class="p">()</span> <span class="p">)</span> <span class="p">);</span>
+</pre></div>
+
+<h2>What's Next?</h2>
+
+<p>There are many endpoints used in LoU for sending commands and retrieving data. I'll leave that for you to explore. I do plan on extending this library with more classes providing simple methods for retrieving data.</p>
+
+<h3>Todo</h3>
+
+<p>I have not been able to decode the data needed to request World Map info. If anybody can help me figure this out, I would be forever grateful. From my best understanding it is encoded using basE91 LE with the following cipher:</p>
+
+<div class="highlight"><pre>
+<span class="nv">$cipher</span> <span class="o">=</span> <span class="k">array</span> <span class="p">(</span>
+    <span class="s1">'A'</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'B'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'C'</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'D'</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">'E'</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'F'</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">'G'</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">'H'</span> <span class="o">=&gt;</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">'I'</span> <span class="o">=&gt;</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">'J'</span> <span class="o">=&gt;</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">'K'</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">'L'</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span> <span class="s1">'M'</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">'N'</span> <span class="o">=&gt;</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">'O'</span> <span class="o">=&gt;</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">'P'</span> <span class="o">=&gt;</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">'Q'</span> <span class="o">=&gt;</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">'R'</span> <span class="o">=&gt;</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="s1">'S'</span> <span class="o">=&gt;</span> <span class="mi">18</span><span class="p">,</span> <span class="s1">'T'</span> <span class="o">=&gt;</span> <span class="mi">19</span><span class="p">,</span> <span class="s1">'U'</span> <span class="o">=&gt;</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">'V'</span> <span class="o">=&gt;</span> <span class="mi">21</span><span class="p">,</span> <span class="s1">'W'</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">,</span> <span class="s1">'X'</span> <span class="o">=&gt;</span> <span class="mi">23</span><span class="p">,</span> <span class="s1">'Y'</span> <span class="o">=&gt;</span> <span class="mi">24</span><span class="p">,</span> <span class="s1">'Z'</span> <span class="o">=&gt;</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">'a'</span> <span class="o">=&gt;</span> <span class="mi">26</span><span class="p">,</span> <span class="s1">'b'</span> <span class="o">=&gt;</span> <span class="mi">27</span><span class="p">,</span> <span class="s1">'c'</span> <span class="o">=&gt;</span> <span class="mi">28</span><span class="p">,</span> <span class="s1">'d'</span> <span class="o">=&gt;</span> <span class="mi">29</span><span class="p">,</span> <span class="s1">'e'</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">'f'</span> <span class="o">=&gt;</span> <span class="mi">31</span><span class="p">,</span> <span class="s1">'g'</span> <span class="o">=&gt;</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">'h'</span> <span class="o">=&gt;</span> <span class="mi">33</span><span class="p">,</span> <span class="s1">'i'</span> <span class="o">=&gt;</span> <span class="mi">34</span><span class="p">,</span>
+    <span class="s1">'j'</span> <span class="o">=&gt;</span> <span class="mi">35</span><span class="p">,</span> <span class="s1">'k'</span> <span class="o">=&gt;</span> <span class="mi">36</span><span class="p">,</span> <span class="s1">'l'</span> <span class="o">=&gt;</span> <span class="mi">37</span><span class="p">,</span> <span class="s1">'m'</span> <span class="o">=&gt;</span> <span class="mi">38</span><span class="p">,</span> <span class="s1">'n'</span> <span class="o">=&gt;</span> <span class="mi">39</span><span class="p">,</span> <span class="s1">'o'</span> <span class="o">=&gt;</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">'p'</span> <span class="o">=&gt;</span> <span class="mi">41</span><span class="p">,</span> <span class="s1">'q'</span> <span class="o">=&gt;</span> <span class="mi">42</span><span class="p">,</span> <span class="s1">'r'</span> <span class="o">=&gt;</span> <span class="mi">43</span><span class="p">,</span> <span class="s1">'s'</span> <span class="o">=&gt;</span> <span class="mi">44</span><span class="p">,</span> <span class="s1">'t'</span> <span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span> <span class="s1">'u'</span> <span class="o">=&gt;</span> <span class="mi">46</span><span class="p">,</span> <span class="s1">'v'</span> <span class="o">=&gt;</span> <span class="mi">47</span><span class="p">,</span> <span class="s1">'w'</span> <span class="o">=&gt;</span> <span class="mi">48</span><span class="p">,</span> <span class="s1">'x'</span> <span class="o">=&gt;</span> <span class="mi">49</span><span class="p">,</span> <span class="s1">'y'</span> <span class="o">=&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'z'</span> <span class="o">=&gt;</span> <span class="mi">51</span><span class="p">,</span>
+    <span class="s1">'0'</span> <span class="o">=&gt;</span> <span class="mi">52</span><span class="p">,</span> <span class="s1">'1'</span> <span class="o">=&gt;</span> <span class="mi">53</span><span class="p">,</span> <span class="s1">'2'</span> <span class="o">=&gt;</span> <span class="mi">54</span><span class="p">,</span> <span class="s1">'3'</span> <span class="o">=&gt;</span> <span class="mi">55</span><span class="p">,</span> <span class="s1">'4'</span> <span class="o">=&gt;</span> <span class="mi">56</span><span class="p">,</span> <span class="s1">'5'</span> <span class="o">=&gt;</span> <span class="mi">57</span><span class="p">,</span> <span class="s1">'6'</span> <span class="o">=&gt;</span> <span class="mi">58</span><span class="p">,</span> <span class="s1">'7'</span> <span class="o">=&gt;</span> <span class="mi">59</span><span class="p">,</span> <span class="s1">'8'</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">'9'</span> <span class="o">=&gt;</span> <span class="mi">61</span><span class="p">,</span> <span class="s1">'!'</span> <span class="o">=&gt;</span> <span class="mi">62</span><span class="p">,</span> <span class="s1">'#'</span> <span class="o">=&gt;</span> <span class="mi">63</span><span class="p">,</span> <span class="s1">'$'</span> <span class="o">=&gt;</span> <span class="mi">64</span><span class="p">,</span> <span class="s1">'%'</span> <span class="o">=&gt;</span> <span class="mi">65</span><span class="p">,</span> <span class="s1">'&amp;'</span> <span class="o">=&gt;</span> <span class="mi">66</span><span class="p">,</span> <span class="s1">'('</span> <span class="o">=&gt;</span> <span class="mi">67</span><span class="p">,</span> <span class="s1">')'</span> <span class="o">=&gt;</span> <span class="mi">68</span><span class="p">,</span>
+    <span class="s1">'*'</span> <span class="o">=&gt;</span> <span class="mi">69</span><span class="p">,</span> <span class="s1">'+'</span> <span class="o">=&gt;</span> <span class="mi">70</span><span class="p">,</span> <span class="s1">','</span> <span class="o">=&gt;</span> <span class="mi">71</span><span class="p">,</span> <span class="s1">'.'</span> <span class="o">=&gt;</span> <span class="mi">72</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">=&gt;</span> <span class="mi">73</span><span class="p">,</span> <span class="s1">':'</span> <span class="o">=&gt;</span> <span class="mi">74</span><span class="p">,</span> <span class="s1">';'</span> <span class="o">=&gt;</span> <span class="mi">75</span><span class="p">,</span> <span class="s1">'&lt;'</span> <span class="o">=&gt;</span> <span class="mi">76</span><span class="p">,</span> <span class="s1">'='</span> <span class="o">=&gt;</span> <span class="mi">77</span><span class="p">,</span> <span class="s1">'&gt;'</span> <span class="o">=&gt;</span> <span class="mi">78</span><span class="p">,</span> <span class="s1">'?'</span> <span class="o">=&gt;</span> <span class="mi">79</span><span class="p">,</span> <span class="s1">'@'</span> <span class="o">=&gt;</span> <span class="mi">80</span><span class="p">,</span> <span class="s1">'['</span> <span class="o">=&gt;</span> <span class="mi">81</span><span class="p">,</span> <span class="s1">']'</span> <span class="o">=&gt;</span> <span class="mi">82</span><span class="p">,</span> <span class="s1">'^'</span> <span class="o">=&gt;</span> <span class="mi">83</span><span class="p">,</span> <span class="s1">'_'</span> <span class="o">=&gt;</span> <span class="mi">84</span><span class="p">,</span> <span class="s1">'`'</span> <span class="o">=&gt;</span> <span class="mi">85</span><span class="p">,</span>
+    <span class="s1">'{'</span> <span class="o">=&gt;</span> <span class="mi">86</span><span class="p">,</span> <span class="s1">'|'</span> <span class="o">=&gt;</span> <span class="mi">87</span><span class="p">,</span> <span class="s1">'}'</span> <span class="o">=&gt;</span> <span class="mi">88</span><span class="p">,</span> <span class="s1">'~'</span> <span class="o">=&gt;</span> <span class="mi">89</span><span class="p">,</span> <span class="s1">'\''</span> <span class="o">=&gt;</span> <span class="mi">90</span>
+<span class="p">);</span>
+</pre></div>
+
+<h3>Changelog</h3>
+
+<ul>
+<li>10/14/12 - Converted class to singleton pattern in preperation for additional classes.</li>
+</ul><h2>License</h2>
+
+<p>Copyright 2012, Roger Mayfield</p>
+
+<p>This library is released under the <a href="http://opensource.org/licenses/gpl-3.0.html">GNU General Public License</a></p>
+
+<h2>Disclaimer</h2>
+
+<p>Although using this class for data retrieval is not prohibited by the <a href="http://www.lordofultima.com/en/game/rules">Lord of Ultima Terms of Service</a>, it is against the rules to automate the game using the methods contained within it. You are liable for your own applications of this library. I am not responsible for any bans that may occur.</p>
+        </section>
+
+        <footer>
+          Lou-php is maintained by <a href="https://github.com/PastorBones">PastorBones</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
