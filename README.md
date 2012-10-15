@@ -1,6 +1,8 @@
 LoU-PHP
 =======
 
+#### Version 0.1.0
+
 ## Description
 
 LoU-PHP is an opensourced class that provides basic methods for connecting, authenticating, and retrieving data from [Lord of Ultima](http://www.lordofultima.com).
@@ -22,7 +24,7 @@ This class is extremely basic providing only the minimal methods needed for conn
 
 ```php
 
-$lou = new LoU('path/to/cookie/directory');
+$lou = LoU::createClient('path/to/cookie/directory');
 $lou->login('myemail@domain.com', 'mypassword');
 ```
 
@@ -43,11 +45,11 @@ There are several ways of selecting a LoU world and retrieving a valid session k
 ```php
 
 // Method 1
-$lou = new LoU('path/to/cookie/directory');
+$lou = LoU::createClient('path/to/cookie/directory');
 $lou->setWord(74)->login('myemail@domain.com', 'mypassword')
 
 // Method 2
-$lou = new LoU('path/to/cookie/directory');
+$lou = LoU::createClient('path/to/cookie/directory');
 $lou->login('myemail@domain.com', 'mypassword')->selectWorld(74);
 ```
 
@@ -55,7 +57,7 @@ Or you can first login and display a list of worlds for a user to choose from an
 
 ````php
 
-$lou = new LoU('path/to/cookie/directory');
+$lou = LoU::createClient('path/to/cookie/directory');
 $lou->login('myemail@domain.com', 'mypassword');
 
 foreach( $lou->server_list as $world )
@@ -116,6 +118,10 @@ $cipher = array (
     '{' => 86, '|' => 87, '}' => 88, '~' => 89, '\'' => 90
 );
 ```
+
+### Changelog
+
+* 10/14/12 - Converted class to singleton pattern in preperation for additional classes.
 
 ## License
 

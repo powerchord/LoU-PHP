@@ -7,7 +7,7 @@
  * @author Roger Mayfield <pastor_bones@yahoo.com>
  * @copyright Copyright (c) 2012, Roger Mayfield
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
- * @version v0.0.1
+ * @version v0.1.0
  */
 Class LoU
 {
@@ -42,6 +42,13 @@ Class LoU
      */
      private $_session;
 
+     /**
+      * Store our object instance to achieve the singleton pattern
+      * @private
+      * @var mixed
+      */
+      private static $_instance;
+
     /**
      * Placeholder for error message.
      * Contains short description of an error after the error happens.
@@ -51,14 +58,32 @@ Class LoU
 
     /**
      * Object Constructor
+     * @private
      * @param string $cookie_path
      * @return mixed
      */
-    public function __construct( $cookie_path )
+    private function __construct( $cookie_path )
     {
         // Set cookie path
         $this->_cookie_path = ( substr_compare( $cookie_path, '/', -1, strlen( $cookie_path ) ) === 0 ) ? $cookie_path . '/' : $cookie_path;
         return $this;
+    }
+
+    public function createClient( $cookie_path=false )
+    {
+        if( !self::$_instance )
+        {
+            if(  !empty( $cookie_path ) )
+            {
+                self::$_instance = new LoU( $cookie_path );
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return self::$_instance;
     }
 
     /**
