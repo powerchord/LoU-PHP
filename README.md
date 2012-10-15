@@ -1,7 +1,7 @@
 LoU-PHP
 =======
 
-#### Version 0.1.0
+#### Version 0.1.1
 
 ## Description
 
@@ -97,6 +97,25 @@ $data = $lou->poll( array( 'CITY' => '1234567' ) );
 
 // Retrieve time information from the server
 $data = $lou->poll( array( 'TIME' => time() ) );
+```
+
+### Player Class
+
+You can now easily retrieve formatted data for the authenticated player or by a given ID
+
+```php
+
+// Connect & Authenticate to LoU
+$lou = LoU::createClient('path/to/cookie/directory');
+$lou->login('myemail@domain.com', 'mypassword')->selectWorld(74);
+
+// Retrieve our own data
+$my_player = new Player();
+$my_data = $my_player->getData();
+
+// Retrieve somebody else's data with the ID of 1000
+$other_player = new Player(1000);
+$other_data = $other_player->getData();
 ```
 
 ## What's Next?

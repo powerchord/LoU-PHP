@@ -7,7 +7,7 @@
  * @author Roger Mayfield <pastor_bones@yahoo.com>
  * @copyright Copyright (c) 2012, Roger Mayfield
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
- * @version v0.1.0
+ * @version v0.1.1
  */
 Class LoU
 {
@@ -277,6 +277,15 @@ Class LoU
         }
 
         return $this->get( 'Poll', $data );
+    }
+
+    /**
+     * Returns the private session information
+     * @return mixed
+     */
+    public function getSessionInfo()
+    {
+        return $this->_session;
     }
 
     /**
